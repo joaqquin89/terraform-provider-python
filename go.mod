@@ -16,7 +16,6 @@ require (
 	github.com/mitchellh/go-wordwrap v1.0.1 // indirect
 	github.com/mitchellh/mapstructure v1.4.1 // indirect
 	github.com/nsf/jsondiff v0.0.0-20210303162244-6ea32392771e // indirect
-	github.com/oracle/oci-go-sdk/v40 v40.4.0
 	github.com/zclconf/go-cty v1.8.3 // indirect
 	golang.org/x/net v0.0.0-20210510120150-4163338589ed // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
