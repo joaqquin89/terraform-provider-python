@@ -21,6 +21,11 @@ func resourcePython() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"pyversion": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
+				Default:  "v2",
+			},
 			"exec_py": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -34,17 +39,31 @@ func resourcePythonCreate(d *schema.ResourceData, m interface{}) error {
 
 	args := d.Get("args").(string)
 	script := d.Get("script").(string)
+	pyversion := d.Get("pyversion").(string)
 	//ensure that args and scrript is not null
 	d.SetId(args)
 	d.SetId(script)
-	scriptExec := "python " + script + " " + args
-	cmd := exec.Command("bash", "-c", scriptExec)
-	b, err2 := cmd.Output()
-	if err2 != nil {
-		return err2
+	d.SetId(pyversion)
+	if pyversion == "v2" {
+		scriptExec := "python " + script + " " + args
+		cmd := exec.Command("bash", "-c", scriptExec)
+		b, err2 := cmd.Output()
+		if err2 != nil {
+			return err2
+		}
+		d.Set("exec_py", string(b))
+		return resourcePythonRead(d, m)
+	} else {
+		scriptExec := "python3 " + script + " " + args
+		cmd := exec.Command("bash", "-c", scriptExec)
+		b, err2 := cmd.Output()
+		if err2 != nil {
+			return err2
+		}
+		d.Set("exec_py", string(b))
+		return resourcePythonRead(d, m)
 	}
-	d.Set("exec_py", string(b))
-	return resourcePythonRead(d, m)
+	return nil
 }
 
 func resourcePythonRead(d *schema.ResourceData, m interface{}) error {
