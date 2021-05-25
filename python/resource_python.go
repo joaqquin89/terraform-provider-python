@@ -46,7 +46,7 @@ func resourcePythonCreate(d *schema.ResourceData, m interface{}) error {
 	d.SetId(pyversion)
 	if pyversion == "v2" {
 		scriptExec := "python " + script + " " + args
-		cmd := exec.Command("bash", "-c", scriptExec)
+		cmd := exec.Command("sh", "-c", scriptExec)
 		b, err2 := cmd.Output()
 		if err2 != nil {
 			return err2
@@ -55,7 +55,7 @@ func resourcePythonCreate(d *schema.ResourceData, m interface{}) error {
 		return resourcePythonRead(d, m)
 	} else {
 		scriptExec := "python3 " + script + " " + args
-		cmd := exec.Command("bash", "-c", scriptExec)
+		cmd := exec.Command("sh", "-c", scriptExec)
 		b, err2 := cmd.Output()
 		if err2 != nil {
 			return err2
